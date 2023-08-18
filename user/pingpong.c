@@ -2,7 +2,7 @@
 #include "user/user.h"
 
 int
-main(char argc, char* argv[]) {
+main(int argc, char* argv[]) {
     if (argc != 1) {
         fprintf(2, "Usage: pingpong\n");
         exit(1);
