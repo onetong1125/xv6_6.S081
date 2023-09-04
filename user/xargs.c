@@ -44,14 +44,14 @@ main(int argc, char *argv[])
 
         if (fork()==0)
         {
-            int st;
-            wait(&st);
-            getnewline(buf, sizeof buf);
+            exec(argv[1], commbuf);
+            exit(0);
         }
         else
         {
-            exec(argv[1], commbuf);
-            exit(0);
+            int st;
+            wait(&st);
+            getnewline(buf, sizeof buf);
         }
     
     }

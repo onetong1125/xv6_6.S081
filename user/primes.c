@@ -15,22 +15,6 @@ main(int argc, char* argv[]) {
     pipe(pipeF2Two);
 
     if (fork() == 0) {
-        close(pipeF2Two[0]);
-        //write 2~35
-        for (int i = 2; i < 36; i++) {
-            write(pipeF2Two[1], &i, 4);
-        }
-        close(pipeF2Two[1]);
-
-        int sts;
-        wait(&sts);
-        if (sts == 0) 
-        {
-            exit(0);
-        }
-        exit(1);
-    }
-    else {
         close(pipeF2Two[1]);
 
         int num;
@@ -55,13 +39,14 @@ main(int argc, char* argv[]) {
 
         exit(0);
     }
-}
+    else {
+        close(pipeF2Two[0]);
+        //write 2~35
+        for (int i = 2; i < 36; i++) {
+            write(pipeF2Two[1], &i, 4);
+        }
+        close(pipeF2Two[1]);
 
-void findPrime(int p, int lastPipe[]) {
-    if (fork() == 0)
-    {
-        close(lastPipe[0]);
-        close(lastPipe[1]);
         int sts;
         wait(&sts);
         if (sts == 0) 
@@ -70,7 +55,11 @@ void findPrime(int p, int lastPipe[]) {
         }
         exit(1);
     }
-    else {
+}
+
+void findPrime(int p, int lastPipe[]) {
+    if (fork() == 0)
+    {
         close(lastPipe[1]);
 
         int num;
@@ -99,7 +88,17 @@ void findPrime(int p, int lastPipe[]) {
         {
             exit(0);
         }
-        
+    }
+    else {
+        close(lastPipe[0]);
+        close(lastPipe[1]);
+        int sts;
+        wait(&sts);
+        if (sts == 0) 
+        {
+            exit(0);
+        }
+        exit(1);
     }
 }
 

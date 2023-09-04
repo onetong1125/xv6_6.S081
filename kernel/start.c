@@ -19,7 +19,7 @@ extern void timervec();
 // entry.S jumps here in machine mode on stack0.
 void
 start()
-{
+{ 
   // set M Previous Privilege mode to Supervisor, for mret.
   unsigned long x = r_mstatus();
   x &= ~MSTATUS_MPP_MASK;

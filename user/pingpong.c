@@ -15,20 +15,6 @@ main(int argc, char* argv[]) {
 
     if (fork() == 0) {
         //ping
-        close(1);
-        dup(pipeF2C[1]);
-        write(1, "i", 1);
-        close(pipeF2C[1]);
-        close(pipeF2C[0]);
-        //pong
-        close(0);
-        dup(pipeC2F[0]);
-        char c;
-        read(0, &c, 1);
-        fprintf(2, "%d: received pong\n", getpid());
-    }
-    else {
-        //ping
         close(0);
         dup(pipeF2C[0]);
         char c;
@@ -40,7 +26,21 @@ main(int argc, char* argv[]) {
         write(1, "o", 1);
         close(pipeC2F[1]);
         close(pipeC2F[0]);
-        sleep(3);
+        
+    }
+    else {
+        //ping
+        close(1);
+        dup(pipeF2C[1]);
+        write(1, "i", 1);
+        close(pipeF2C[1]);
+        close(pipeF2C[0]);
+        //pong
+        close(0);
+        dup(pipeC2F[0]);
+        char c;
+        read(0, &c, 1);
+        fprintf(2, "%d: received pong\n", getpid());
     }
 
     exit(0);
